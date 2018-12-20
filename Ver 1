@@ -1,0 +1,335 @@
+# Each def function creates a new user created function with one per problem that can be called upon later on.
+# The start of the program is largely consisted of def functions.
+
+
+def voting():
+    # Makes all instructions bold to easily distinguish
+    print('\033[1m' + 'Problem 1')
+
+    print("\n")
+
+    # Gives the user information as too what to expect and asks them to enter their age
+    print("Under current Australian laws you must be 18 years to vote. This function allows you to find out whether "
+          "you are old enough to vote.")
+    print('\n')
+
+    # Allows user to input age and check for issues with input
+    while True:
+        age = input("Please enter your age: ")
+        if not age.isnumeric():
+            print("Your input is not an age, please re-enter the code")
+            continue
+        else:
+            break
+
+    # Converts name from a str to an int so that the logic can be performed
+    age = int(age)
+
+    ''' - Logic used to figure out whether the user is allowed to vote or not.
+        - If the user is equal to or over the age of 18 then the function returns a positive result
+        - Otherwise the function returns a negative result
+    '''
+    if age >= 18:
+        print("You can vote.")
+    else:
+        print("You are unable to vote.")
+
+
+def two_numbers():
+    # Makes all instructions bold to easily distinguish
+    print('\033[1m' + 'Problem 2')
+
+    print('\n')
+
+    # Tells the user what the function will return and what they need to input
+    print("Enter two numbers and the function will return the numbers in descending order:")
+    print('\n')
+
+    ''' 
+        - This loop checks for a non-integer input and if true asks the user to re-enter their number
+        - If the number is a integer it breaks out of the loop
+    '''
+    while True:
+        try:
+            no1 = float(input("Type a number: "))
+        except ValueError:
+            print("This is not a number.")
+            continue
+        else:
+            break
+
+    ''' 
+        - This loop checks for a non-integer input and if true asks the user to re-enter their number
+        - If the number is a integer it breaks out of the loop
+        - This is the same as the original loop however this checks for the second variable where the first one checks 
+        for the first variable
+    '''
+    while True:
+        try:
+            no2 = float(input("Type a number: "))
+        except ValueError:
+            print("This is not a number.")
+            continue
+        else:
+            break
+
+    ''' - This is the logic that determines which integer is bigger and depending on the results prints out the integers in 
+        descending order.
+        - i have not created a separate algorithm that tells the computer what to do if the integers entered are equal
+          because it will not matter and will only serve to increase the storage necessary
+    '''
+    if no1 > no2:
+        print("\n")
+        print("Your numbers in descending order are", no1, "and", no2)
+    else:
+        print("\n")
+        print("Your numbers in descending order are", no2, "and", no1)
+
+
+def sum_ave():
+    # Tells the user what they can expect from the function
+    print('\033[1m' + 'Problem 3')
+    print(
+        'This function gives you the sum and average of all the counting numbers (inclusive) of the two numbers that '
+        'you input')
+
+    print('\n')
+
+    # Prevents the user from entering anything other than a counting number
+    while True:
+        try:
+            x = int(input("Type a number: "))
+        except ValueError:
+            print("This is not a counting number.")
+            continue
+        else:
+            break
+
+    # Prevents the user from entering anything other than a counting number
+    while True:
+        try:
+            y = int(input("Type a number: "))
+        except ValueError:
+            print("This is not a counting number.")
+            continue
+        else:
+            break
+
+    ''' Finds the sum and average based of whether x is greater than y or y is greater than x
+        n is the number of terms including the two numbers
+        s is the sum of the numbers calculated by multiplying the no of terms divided by 2 with the sum of the two no
+        a is the average of the two numbers calculated by dividing the sum by the no of terms
+    '''
+    if x > y:
+        n = x - y + 1
+        s = n / 2 * (x + y)
+        a = s / n
+        print('The sum of all numbers from', x, 'to', y, 'is', s)
+        print('The average of all numbers from', x, 'to', y, 'is', a)
+    elif y > x:
+        n = y - x + 1
+        s = n / 2 * (x + y)
+        a = s / n
+        print('The sum of all numbers from', x, 'to', y, 'is', s)
+        print('The average of all numbers from', x, 'to', y, 'is', a)
+
+
+def amusement():
+    # Makes all instructions bold to easily distinguish
+    print('\033[1m' + 'Problem 4')
+
+    print('\n')
+
+    # Provides information for the user
+    print("To ride on this rollercoaster you must be at least 40kg and taller than 135cm. This function will determine "
+          "whether you are allowed to ride on the rollercoaster.")
+    print('\n')
+
+    # Prevents user from entering a value that is not numeric
+    while True:
+        weight = input("Please enter your weight in kg: ")
+        if not weight.isnumeric():
+            print("Sorry your answer is not a number.")
+            continue
+        else:
+            break
+
+    # Prevents user from entering a value that is not numeric
+    while True:
+        height = input("Please enter your height in cm: ")
+        if not height.isnumeric():
+            print("Sorry your answer is not a number.")
+            continue
+        else:
+            break
+
+    # Calculates each possibility and returns a different statement based of the result
+    if int(weight) >= 40 and int(height) >= 135:
+        print('Both your weight and height are sufficient to ride the rollercoaster. :)')
+    elif int(weight) >= 40 and int(height) < 135:
+        print('Your weight is sufficient however your height is not, therefore you may not ride the rollercoaster. :(')
+    elif int(weight) < 40 and int(height) >= 135:
+        print('Your height is sufficient however your weight is not, therefore you may not ride the rollercoaster. :(')
+    else:
+        print('Neither you weight nor you height is sufficient, therefore you may not ride the rollercoaster. :(')
+
+
+def speeding():
+    # Distinguishes each problem
+    print('\033[1m' + 'Problem 5')
+
+    print('\n')
+
+    # Gives more information about this function in particular
+    print('This function gives you the penalty for the speed over speed limit.')
+    print('\n')
+
+    # Prevents the user from inputting something that is not a positive number
+    while True:
+        speed_limit = input("Please enter the speed limit: ")
+        if not speed_limit.isnumeric():
+            print("Your input is not a number.")
+            continue
+        else:
+            break
+
+    while True:
+        speed_car = input("Please enter the speed the car was travelling at: ")
+        if not speed_car.isnumeric():
+            print("Your input is not a number.")
+            continue
+        else:
+            break
+
+    # Figures out the speed the car was travelling at over the speed limit
+    speed = int(speed_car) - int(speed_limit)
+
+    # Checks for the range in which the speed falls and the corresponding penalty and then displays them
+    if 10 <= speed <= 15:
+        print('Your penalty is $250 and 4 demerit points.')
+    elif 16 <= speed <= 25:
+        print('Your penalty is $850 and 6 demerit points.')
+    elif 26 <= speed <= 35:
+        print('Your penalty is $1450 plus 8 demerit points.')
+    elif speed > 35:
+        print('Your penalty is $2850 plus a loss of your licence for 2 years.')
+    elif 0 < speed < 10:
+        print('You did not incur a penalty. However do not speed again.')
+    elif speed <= 0:
+        print('You were not speeding and therefore did not incur a penalty.')
+
+
+def triathlon():
+    # Distinguishes from other problems
+    print('\033[1m' + 'Problem 6')
+
+    print('\n')
+
+    # Gives more information about this particular function
+    print('This function tells you the correct division you should be in depending on your age.')
+    print('\n')
+
+    # Prevents the user from inputting a value that is not an integer
+    while True:
+        c = input("Please enter your age: ")
+        if not c.isnumeric():
+            print("Your input is not an age.")
+            continue
+        else:
+            break
+
+    c = int(c)
+
+    # Checks for the age range and division and then displays them
+    if c <= 12:
+        print('Your division is the junior division.')
+    elif c <= 15:
+        print('Your division is the intermediate division.')
+    elif c < 18:
+        print('Your division is the cadet division.')
+    elif c >= 36:
+        print('Your division is the veteran division.')
+    else:
+        print('Your division is the open division.')
+
+
+''' This function creates a menu where the user can see the different functions and pick the one they would like to use.
+    It is also the main function as it is where all other functions are called.
+    There is an option to quit the program by typing 0
+'''
+
+
+def main_menu():
+    print('\033[1m' + 'This program allows you to select the function you would like to execute.')
+    print('This program was designed by Gowtham Ravikumar.')
+    print('\033[0m')
+    print('1. Voting Function')
+    print('2. Two numbers in descending order')
+    print('3. Sum and average of range of two numbers')
+    print('4. Amusement park')
+    print('5. Speeding fines')
+    print('6. Triathlon')
+    print('0. Quit program')
+
+    while True:
+        try:
+            print('\n')
+            selection = int(input('\033[1m' + "Please enter a number: "))
+            print('\n' + '\033[0m')
+            break
+        except ValueError:
+            print("Oops!  That was no valid number.  Try again...")
+
+    ''' Checks the input and starts the function related to that number.
+        Then returns the user back to the main menu after they press enter
+    '''
+    if selection == 1:
+        voting()
+        print('\n')
+        input('Press enter to continue: ')
+        print('\n')
+        main_menu()
+    elif selection == 2:
+        two_numbers()
+        print('\n')
+        input('Press enter to continue: ')
+        print('\n')
+        main_menu()
+    elif selection == 3:
+        sum_ave()
+        print('\n')
+        input('Press enter to continue: ')
+        print('\n')
+        main_menu()
+    elif selection == 4:
+        amusement()
+        print('\n')
+        input('Press enter to continue: ')
+        print('\n')
+        main_menu()
+    elif selection == 5:
+        speeding()
+        print('\n')
+        input('Press enter to continue: ')
+        print('\n')
+        main_menu()
+    elif selection == 6:
+        triathlon()
+        print('\n')
+        input('Press enter to continue: ')
+        print('\n')
+        main_menu()
+    elif selection == 0:
+        quit()
+        print('\n')
+        input('Press enter to continue: ')
+        print('\n')
+        main_menu()
+# This prevents the user entering a number that is not linked to an available function
+    elif selection >= 7:
+        print('This is not a valid function number. Please select a number from this list:')
+        input('Press the enter key to continue.')
+        main_menu()
+
+
+main_menu()
