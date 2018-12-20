@@ -1,0 +1,166 @@
+# Gowtham Ravikumar
+# Task 2 - Connect four
+# YEETUS
+
+# This imports the required modules for the code to correctly function
+import numpy as np
+import pygame
+import sys
+import math
+
+# This sets the values for the colours that will be used throughout the code beforehand, so that it is easily callable
+# later on
+blue = (0, 0, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+yellow = (255, 255, 0)
+
+
+# The following section defines various functions that each serve a specific part in the code later on
+
+# This function creates a default board in the form of an array, using the numpy module
+def create_board():
+    board = np.zeros((9, 11))
+    return board
+
+
+# This function is used to assign a new state to a position in an array when a piece is dropped in
+def drop_piece(board, row, col, piece):
+    board[row][col] = piece
+
+
+# This function checks whether the location the user wants to place the piece in is valid or not
+def is_valid_location(board, col):
+    return board[8][col] == 0
+
+
+# This function finds the next open row, for the piece to slot into
+def get_next_open_row(board, col):
+    for r in range(9):
+        if board[r][col] == 0:
+            return r
+
+
+# This is a function that simplifies code as it is called upon many times, and simple prints the newest board
+def print_board(board):
+    print(np.flip(board, 0))
+
+
+# This functions checks if a player has won or not, and ends the game if they have won
+def win(board, piece):
+    # Check horizontal locations for win
+    for c in range(11 - 3):
+        for r in range(9):
+            if board[r][c] == piece and board[r][c+1] == piece and board[r][c+2] == piece and board[r][c+3] == piece:
+                return True
+
+    # Check Vertical locations for win:
+    for c in range(11):
+        for r in range(9 - 3):
+            if board[r][c] == piece and board[r+1][c] == piece and board[r+2][c] == piece and board[r+3][c] == piece:
+                return True
+    # It does not check diagonally, as the notification states it is not necessary
+
+
+# This creates a visual representation of the array, for the user to interact with in the pygame module
+def draw_board(board):
+    for c in range(11):
+        for r in range(9):
+            pygame.draw.rect(screen, blue, (c*square_size, r*square_size + square_size, square_size, square_size))
+            pygame.draw.circle(screen, black, (int(c*square_size+square_size/2), int(r*square_size+square_size+square_size/2)), radius)
+
+    for c in range(11):
+        for r in range(9):
+            if board[r][c] == 1:
+                pygame.draw.circle(screen, red, (int(c * square_size + square_size / 2), height - int(r * square_size + square_size / 2)), radius)
+            elif board[r][c] == 2:
+                pygame.draw.circle(screen, yellow, (int(c * square_size + square_size / 2), height - int(r * square_size + square_size / 2)), radius)
+            pygame.display.update()
+
+
+# Some variables are predefined for ease to use and simplicity in coding
+board = create_board()
+print_board(board)
+game_over = False
+turn = 0
+
+# The pygame window is created and set up, according to the dimensions needed
+pygame.init()
+
+square_size = 100
+
+width = 11 * square_size
+height = 1000
+
+size = (width, height)
+radius = int(square_size/2 - 3)
+
+screen = pygame.display.set_mode(size)
+draw_board(board)
+pygame.display.update()
+
+myfont = pygame.font.SysFont("monospace", 75)
+
+# The main loop of code that runs as long as the game_over variable remains false
+while not game_over:
+
+    for event in pygame.event.get():
+        # The following IF statements are carried out depending on how the user interacts with the pygame window
+        # This IF statement closes is the user decides to quit the game
+        if event.type == pygame.QUIT:
+            sys.exit()
+
+        # This IF statement moves the piece along the top of the board as the user moves his/her mouse around
+        if event.type == pygame.MOUSEMOTION:
+            pygame.draw.rect(screen, black, (0, 0, width, square_size))
+            posx = event.pos[0]
+            if turn == 0:
+                pygame.draw.circle(screen, red, (posx, int(square_size/2)), radius)
+            else:
+                pygame.draw.circle(screen, yellow, (posx, int(square_size/2)), radius)
+        pygame.display.update()
+
+        # This IF statement pushes the piece down the slot when the user clicks down on the button
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.draw.rect(screen, black, (0, 0, width, square_size))
+
+            print_board(event.pos)
+            # Ask for Player 1 Input
+            if turn == 0:
+                posx = event.pos[0]
+                col = int(math.floor(posx/square_size))
+
+                if is_valid_location(board, col):
+                    row = get_next_open_row(board, col)
+                    drop_piece(board, row, col, 1)
+                    if win(board, 1):
+                        label = myfont.render("| Player 1 wins! |", 1, red)
+                        screen.blit(label, (40, 10))
+                        game_over = True
+                        break
+
+            # Ask for Player 2 Input
+            else:
+                posx = event.pos[0]
+                col = int(math.floor(posx/square_size))
+
+                if is_valid_location(board, col):
+                    row = get_next_open_row(board, col)
+                    drop_piece(board, row, col, 2)
+                    if win(board, 2):
+                        label = myfont.render("| Player 2 wins! |", 1, yellow)
+                        screen.blit(label, (40, 10))
+                        game_over = True
+                        break
+
+            # This updates the board and then prints the new board
+            print_board(board)
+            draw_board(board)
+
+            # This advances the turn by 1, returning to turn 1 when it has reached 2
+            turn += 1
+            turn = turn % 2
+
+            # This IF statement quits the game after a win, but inserts a pause for a while
+            if game_over:
+                pygame.time.wait(3000)
